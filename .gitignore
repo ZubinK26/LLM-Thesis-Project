@@ -1,0 +1,42 @@
+﻿# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual Environments
+env/
+venv/
+.venv/
+coref_env/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Generated Data & Reports
+/LLM_Response_Eval/llm_eval_report.jsonl
+/LLM_Response_Eval/llm_eval_report.html
+/LLM_Response_Eval/ground_truth_assumptions.csv
+/LLM_Response_Eval/llm_responses.csv
+/LLM_Response_Eval/temp.csv
+
+/query_analysis_report.html
+/query_analysis_report.jsonl
+/flattened_analysis_report.csv
+/concreteness_scores_original.csv
+/domain_sp_words
+/queries_n_para - Sheet1.csv
+
+# Generated requirements files
+requirements_coref_env.txt
+requirements_venv.txt
+requirements_llm_response_eval.txt
+
+# General log files
+*.log
+
+# Operating System files
+.DS_Store
+Thumbs.db

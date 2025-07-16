@@ -1,0 +1,5 @@
+function
+limit
+derivative
+matrix
+approaches zero
