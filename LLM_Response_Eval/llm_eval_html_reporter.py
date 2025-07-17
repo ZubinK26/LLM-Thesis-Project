@@ -174,6 +174,7 @@ def generate_html_report():
             td:nth-of-type(19):before {{ content: "Hallucinated Rate"; }}
             td:nth-of-type(20):before {{ content: "Hallucination Class"; }}
             td:nth-of-type(21):before {{ content: "All Flags Covered"; }}
+            td:nth-of-type(22):before {{ content: "Hedging Count"; }} /* NEW */
             /* Add more for placeholders if they become active columns */
         }}
     </style>
@@ -213,6 +214,7 @@ def generate_html_report():
                     <th>Pause/Proceed Compliance</th>
                     <th>Justification Correctness</th>
                     <th>Explanation Readiness</th>
+                    <th>Hedging Count</th> <!-- NEW HEADER -->
                 </tr>
             </thead>
             <tbody>
@@ -233,6 +235,7 @@ def generate_html_report():
 
         # Extracting results for each dimension
         constrained_eval = record.get('constrained_evaluation_results', {})
+        unconstrained_eval = record.get('unconstrained_evaluation_results', {}) # NEW: Extract unconstrained results
 
         recall_data = constrained_eval.get('assumption_recall', {})
         recall_score = recall_data.get('recall_score', 'N/A')
@@ -260,7 +263,11 @@ def generate_html_report():
         coverage_data = constrained_eval.get('coverage_all_flags_before_answering', {})
         all_flags_covered = coverage_data.get('all_flags_covered_before_answer', 'N/A')
 
-        # Placeholder data
+        # NEW: Extract hedging count
+        hedging_count_data = unconstrained_eval.get('hedging_count', {})
+        hedging_count = hedging_count_data.get('hedging_count', 'N/A')
+
+        # Placeholder data (still pulling from constrained_eval for now as per JSONL structure)
         pause_proceed_data = constrained_eval.get('pause_proceed_compliance', {})
         justification_correctness_data = constrained_eval.get('justification_correctness', {})
         explanation_readiness_data = constrained_eval.get('explanation_readiness', {})
@@ -307,6 +314,7 @@ def generate_html_report():
                     <td>{pause_proceed_data.get('compliant', 'N/A')}</td>
                     <td>{justification_correctness_data.get('correctness_ratio', 'N/A')}</td>
                     <td>{explanation_readiness_data.get('ready', 'N/A')}</td>
+                    <td>{hedging_count}</td> <!-- NEW DATA CELL -->
                 </tr>
         """
     html_content += """

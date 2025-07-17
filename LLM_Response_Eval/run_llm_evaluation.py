@@ -9,6 +9,8 @@ import spacy # For passing to conciseness module
 # This ensures that our master script can find and import the individual dimension modules.
 # It adds the directory where this script resides (LLM_Response_Eval) to the Python path,
 # allowing relative imports like 'evaluation_modules.evaluation_dimension_recall'.
+# Note: This path adjustment might not be strictly necessary if run_llm_evaluation.py is
+# always run from its directory and evaluation_modules is a direct subdirectory.
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # --- Import all necessary evaluation dimension functions and helpers ---
@@ -25,6 +27,7 @@ from evaluation_modules.evaluation_dimension_format_compliance import evaluate_f
 from evaluation_modules.evaluation_dimension_justification_conciseness import evaluate_justification_conciseness
 from evaluation_modules.evaluation_dimension_hallucinated_flag_rate import evaluate_hallucinated_flag_rate
 from evaluation_modules.evaluation_dimension_coverage_all_flags_before_answering import evaluate_coverage_all_flags_before_answering
+from evaluation_modules.evaluation_dimension_hedging_count import evaluate_hedging_count # NEW IMPORT
 
 
 # --- Global File Paths ---
@@ -177,9 +180,9 @@ def run_llm_evaluation():
                 "justification_correctness": {'correctness_ratio': 'N/A', 'classification': 'N/A', 'details': 'Requires human review or LLM probe.', 'success': False, 'error_message': 'Not Implemented'},
                 "explanation_readiness": {'ready': 'N/A', 'details': 'Requires interactive session logging.', 'success': False, 'error_message': 'Not Implemented'}
             },
-            # Placeholder for Unconstrained Evaluation Results (to be added later if needed)
+            # NEW UNCONSTRAINED EVALUATION RESULTS SECTION
             "unconstrained_evaluation_results": {
-                "status": "Not Implemented"
+                "hedging_count": evaluate_hedging_count(unconstrained_response) # NEW METRIC
             }
         }
         
