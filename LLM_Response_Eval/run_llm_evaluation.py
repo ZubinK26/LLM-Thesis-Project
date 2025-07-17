@@ -28,7 +28,8 @@ from evaluation_modules.evaluation_dimension_justification_conciseness import ev
 from evaluation_modules.evaluation_dimension_hallucinated_flag_rate import evaluate_hallucinated_flag_rate
 from evaluation_modules.evaluation_dimension_coverage_all_flags_before_answering import evaluate_coverage_all_flags_before_answering
 from evaluation_modules.evaluation_dimension_hedging_count import evaluate_hedging_count
-from evaluation_modules.evaluation_dimension_response_readability import evaluate_response_readability # NEW IMPORT
+from evaluation_modules.evaluation_dimension_response_readability import evaluate_response_readability
+from evaluation_modules.evaluation_dimension_answer_conciseness import evaluate_answer_conciseness # NEW IMPORT
 
 
 # --- Global File Paths ---
@@ -175,6 +176,7 @@ def run_llm_evaluation():
                 "justification_conciseness": evaluate_justification_conciseness(justifications_raw, nlp), # Pass nlp model
                 "hallucinated_flag_rate": evaluate_hallucinated_flag_rate(expected_flags_for_query, detected_flags_normalized),
                 "coverage_all_flags_before_answering": evaluate_coverage_all_flags_before_answering(constrained_response, expected_flags_for_query),
+                "answer_conciseness": evaluate_answer_conciseness(constrained_response, nlp), # NEW METRIC
                 
                 # Placeholder Dimensions (as discussed, these require more complex setup)
                 "pause_proceed_compliance": {'compliant': 'N/A', 'details': 'Requires interactive session logging.', 'success': False, 'error_message': 'Not Implemented'},
@@ -183,7 +185,7 @@ def run_llm_evaluation():
             },
             "unconstrained_evaluation_results": {
                 "hedging_count": evaluate_hedging_count(unconstrained_response),
-                "response_readability": evaluate_response_readability(unconstrained_response) # NEW METRIC
+                "response_readability": evaluate_response_readability(unconstrained_response)
             }
         }
         

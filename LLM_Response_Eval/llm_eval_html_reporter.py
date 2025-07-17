@@ -51,7 +51,7 @@ def generate_html_report():
             line-height: 1.6;
         }}
         .container {{
-            max-width: 1800px; /* Increased max-width to accommodate more columns */
+            max-width: 2000px; /* Increased max-width to accommodate new columns */
             margin: 0 auto;
             padding: 20px;
             background-color: #fff;
@@ -175,16 +175,19 @@ def generate_html_report():
             td:nth-of-type(20):before {{ content: "Hallucination Class"; }}
             td:nth-of-type(21):before {{ content: "All Flags Covered"; }}
             td:nth-of-type(22):before {{ content: "Hedging Count"; }}
-            td:nth-of-type(23):before {{ content: "Flesch Ease"; }} /* NEW */
-            td:nth-of-type(24):before {{ content: "F-K Grade"; }} /* NEW */
-            td:nth-of-type(25):before {{ content: "Dale-Chall"; }} /* NEW */
-            td:nth-of-type(26):before {{ content: "SMOG"; }} /* NEW */
-            td:nth-of-type(27):before {{ content: "Coleman-Liau"; }} /* NEW */
-            td:nth-of-type(28):before {{ content: "ARI"; }} /* NEW */
-            td:nth-of-type(29):before {{ content: "Linsear Write"; }} /* NEW */
-            td:nth-of-type(30):before {{ content: "Gunning Fog"; }} /* NEW */
-            td:nth-of-type(31):before {{ content: "Words"; }} /* NEW */
-            td:nth-of-type(32):before {{ content: "Sentences"; }} /* NEW */
+            td:nth-of-type(23):before {{ content: "Flesch Ease"; }}
+            td:nth-of-type(24):before {{ content: "F-K Grade"; }}
+            td:nth-of-type(25):before {{ content: "Dale-Chall"; }}
+            td:nth-of-type(26):before {{ content: "SMOG"; }}
+            td:nth-of-type(27):before {{ content: "Coleman-Liau"; }}
+            td:nth-of-type(28):before {{ content: "ARI"; }}
+            td:nth-of-type(29):before {{ content: "Linsear Write"; }}
+            td:nth-of-type(30):before {{ content: "Gunning Fog"; }}
+            td:nth-of-type(31):before {{ content: "Words"; }}
+            td:nth-of-type(32):before {{ content: "Sentences"; }}
+            td:nth-of-type(33):before {{ content: "Answer Word Count"; }}
+            td:nth-of-type(34):before {{ content: "Answer Sentence Count"; }}
+            td:nth-of-type(35):before {{ content: "Answer Conciseness Class"; }}
             /* Add more for placeholders if they become active columns */
         }}
     </style>
@@ -225,7 +228,7 @@ def generate_html_report():
                     <th>Justification Correctness</th>
                     <th>Explanation Readiness</th>
                     <th>Hedging Count</th>
-                    <!-- NEW READABILITY HEADERS -->
+                    <!-- READABILITY HEADERS -->
                     <th>Flesch Reading Ease</th>
                     <th>Flesch-Kincaid Grade</th>
                     <th>Dale-Chall Readability</th>
@@ -236,6 +239,10 @@ def generate_html_report():
                     <th>Gunning Fog Index</th>
                     <th>Words</th>
                     <th>Sentences</th>
+                    <!-- NEW ANSWER CONCISENESS HEADERS -->
+                    <th>Answer Word Count</th>
+                    <th>Answer Sentence Count</th>
+                    <th>Answer Conciseness Class</th>
                 </tr>
             </thead>
             <tbody>
@@ -287,7 +294,6 @@ def generate_html_report():
         hedging_count_data = unconstrained_eval.get('hedging_count', {})
         hedging_count = hedging_count_data.get('hedging_count', 'N/A')
 
-        # NEW: Extract readability scores
         readability_data = unconstrained_eval.get('response_readability', {})
         flesch_ease = readability_data.get('flesch_reading_ease', 'N/A')
         flesch_kincaid = readability_data.get('flesch_kincaid_grade', 'N/A')
@@ -300,6 +306,12 @@ def generate_html_report():
         text_length_words = readability_data.get('text_length_words', 'N/A')
         text_length_sentences = readability_data.get('text_length_sentences', 'N/A')
 
+        # Extract answer conciseness scores
+        answer_conciseness_data = constrained_eval.get('answer_conciseness', {})
+        answer_word_count = answer_conciseness_data.get('word_count', 'N/A')
+        answer_sentence_count = answer_conciseness_data.get('sentence_count', 'N/A')
+        answer_conciseness_class = answer_conciseness_data.get('classification', 'N/A')
+
 
         # Placeholder data (still pulling from constrained_eval for now as per JSONL structure)
         pause_proceed_data = constrained_eval.get('pause_proceed_compliance', {})
@@ -310,14 +322,14 @@ def generate_html_report():
         # Helper to get CSS class for scores/booleans
         def get_score_class(value):
             if isinstance(value, (float, int)):
-                # Readability scores are different: higher Flesch Ease is easier
-                # Lower Flesch-Kincaid, Dale-Chall, etc., are easier
-                # We'll apply a generic numerical class for now, or could define ranges
                 return "score-numerical" # A generic class for numerical scores
             elif value == "High": return "score-high"
             elif value == "Medium": return "score-medium"
             elif value == "Low": return "score-low"
-            elif value == "N/A (No expected flags)" or value == "N/A (No flags detected)" or value == "N/A (No justifications)" or value == "N/A" or value == "N/A (No non-empty justifications)" or value == "Empty or invalid response text.": return "score-na"
+            elif value == "Very Short": return "score-low" # Can adjust these classifications
+            elif value == "Short": return "score-medium"
+            elif value == "Long": return "score-high"
+            elif value == "N/A (No expected flags)" or value == "N/A (No flags detected)" or value == "N/A (No justifications)" or value == "N/A" or value == "N/A (No non-empty justifications)" or value == "Empty or invalid response text." or value == "N/A (No answer text)": return "score-na"
             elif value is True: return "boolean-true"
             elif value is False: return "boolean-false"
             return ""
@@ -350,7 +362,7 @@ def generate_html_report():
                     <td>{justification_correctness_data.get('correctness_ratio', 'N/A')}</td>
                     <td>{explanation_readiness_data.get('ready', 'N/A')}</td>
                     <td>{hedging_count}</td>
-                    <!-- NEW READABILITY DATA CELLS -->
+                    <!-- READABILITY DATA CELLS -->
                     <td class="{get_score_class(flesch_ease)}">{f'{flesch_ease:.2f}' if isinstance(flesch_ease, float) else flesch_ease}</td>
                     <td class="{get_score_class(flesch_kincaid)}">{f'{flesch_kincaid:.2f}' if isinstance(flesch_kincaid, float) else flesch_kincaid}</td>
                     <td class="{get_score_class(dale_chall)}">{f'{dale_chall:.2f}' if isinstance(dale_chall, float) else dale_chall}</td>
@@ -361,6 +373,10 @@ def generate_html_report():
                     <td class="{get_score_class(gunning_fog)}">{f'{gunning_fog:.2f}' if isinstance(gunning_fog, float) else gunning_fog}</td>
                     <td>{text_length_words}</td>
                     <td>{text_length_sentences}</td>
+                    <!-- NEW ANSWER CONCISENESS DATA CELLS -->
+                    <td>{answer_word_count}</td>
+                    <td>{answer_sentence_count}</td>
+                    <td class="{get_score_class(answer_conciseness_class)}">{answer_conciseness_class}</td>
                 </tr>
         """
     html_content += """
