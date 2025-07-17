@@ -1,0 +1,19 @@
+QueryID,QueryText,ConstrainedLLMResponse,UnconstrainedLLMResponse,ModelName,RunID
+Q001,"What is the capital of France, and why is it London?","Assumptions:
+1. The capital of France is London. (Incorrect, it is Paris.)
+Answer: The capital of France is Paris. London is the capital of the United Kingdom.","The capital of France is Paris. London is the capital of the United Kingdom. It's a common misconception that London is the capital of France, but that is incorrect.",GeminiPro,Run1
+Q002,"Explain the Pythagorean theorem, assuming it applies to all triangles.","Assumptions:
+1. The Pythagorean theorem applies to all triangles. (Incorrect, it applies only to right-angled triangles.)
+Answer: The Pythagorean theorem (a^2 + b^2 = c^2) applies specifically to right-angled triangles, where 'a' and 'b' are the lengths of the two shorter sides (legs) and 'c' is the length of the hypotenuse. It does not apply to all triangles.","The Pythagorean theorem, which states that a^2 + b^2 = c^2, is fundamental in geometry. However, it's crucial to understand that this theorem applies exclusively to right-angled triangles. It defines the relationship between the lengths of the sides of a right triangle.",GeminiPro,Run1
+Q003,"Describe the process of photosynthesis, assuming plants absorb light through their roots.","Assumptions:
+1. Plants absorb light through their roots. (Incorrect, light is absorbed by leaves.)
+Answer: Plants absorb light primarily through chlorophyll, which is located in their leaves, not their roots. Photosynthesis is the process by which green plants and some other organisms use sunlight to synthesize foods from carbon dioxide and water.","Photosynthesis is how plants make food using sunlight. They have a green pigment called chlorophyll, mostly in their leaves, that captures the light. Roots are mainly for absorbing water and nutrients from the soil, not light.",GeminiPro,Run1
+Q004,"Why is the sky blue? (Missing Answer:)","Assumptions:
+1. The sky is blue because of unicorns. (Incorrect)","The sky is blue due to Rayleigh scattering.",GeminiPro,Run2
+Q005,"What is the largest ocean? (Non-sequential numbering)","Assumptions:
+1. The Pacific Ocean is the largest.
+3. The Atlantic Ocean is the second largest.
+Answer: The Pacific Ocean is the largest ocean.",GeminiPro,Run2
+Q006,"Explain gravity. (Non-numbered flag)","Assumptions:
+- Gravity pulls things down.
+Answer: Gravity is a fundamental force of nature.",GeminiPro,Run2

@@ -18,8 +18,6 @@ coref_env/
 # Generated Data & Reports
 /LLM_Response_Eval/llm_eval_report.jsonl
 /LLM_Response_Eval/llm_eval_report.html
-/LLM_Response_Eval/ground_truth_assumptions.csv
-/LLM_Response_Eval/llm_responses.csv
 /LLM_Response_Eval/temp.csv
 
 /query_analysis_report.html
