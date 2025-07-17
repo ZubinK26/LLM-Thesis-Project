@@ -27,7 +27,8 @@ from evaluation_modules.evaluation_dimension_format_compliance import evaluate_f
 from evaluation_modules.evaluation_dimension_justification_conciseness import evaluate_justification_conciseness
 from evaluation_modules.evaluation_dimension_hallucinated_flag_rate import evaluate_hallucinated_flag_rate
 from evaluation_modules.evaluation_dimension_coverage_all_flags_before_answering import evaluate_coverage_all_flags_before_answering
-from evaluation_modules.evaluation_dimension_hedging_count import evaluate_hedging_count # NEW IMPORT
+from evaluation_modules.evaluation_dimension_hedging_count import evaluate_hedging_count
+from evaluation_modules.evaluation_dimension_response_readability import evaluate_response_readability # NEW IMPORT
 
 
 # --- Global File Paths ---
@@ -180,9 +181,9 @@ def run_llm_evaluation():
                 "justification_correctness": {'correctness_ratio': 'N/A', 'classification': 'N/A', 'details': 'Requires human review or LLM probe.', 'success': False, 'error_message': 'Not Implemented'},
                 "explanation_readiness": {'ready': 'N/A', 'details': 'Requires interactive session logging.', 'success': False, 'error_message': 'Not Implemented'}
             },
-            # NEW UNCONSTRAINED EVALUATION RESULTS SECTION
             "unconstrained_evaluation_results": {
-                "hedging_count": evaluate_hedging_count(unconstrained_response) # NEW METRIC
+                "hedging_count": evaluate_hedging_count(unconstrained_response),
+                "response_readability": evaluate_response_readability(unconstrained_response) # NEW METRIC
             }
         }
         
