@@ -32,7 +32,6 @@ coref_env/
 # Generated requirements files
 requirements_coref_env.txt
 requirements_venv.txt
-requirements_llm_response_eval.txt
 
 # General log files
 *.log
